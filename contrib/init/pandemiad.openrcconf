@@ -1,0 +1,26 @@
+# /etc/conf.d/pandemiad: config file for /etc/init.d/pandemiad
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/pandemia/pandemia.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/pandemiad"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/pandemiad.pid"
+
+# Where to write pandemiad data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/pandemiad"
+
+# User and group to own pandemiad process
+#BITCOIND_USER="pandemia"
+#BITCOIND_GROUP="pandemia"
+
+# Path to pandemiad executable
+#BITCOIND_BIN="/usr/bin/pandemiad"
+
+# Nice value to run pandemiad under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

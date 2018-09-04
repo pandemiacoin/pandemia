@@ -1,0 +1,26 @@
+[Unit]
+Description=Pandemia's distributed currency daemon
+After=network.target
+
+[Service]
+User=pandemia
+Group=pandemia
+
+Type=forking
+PIDFile=/var/lib/pandemiad/pandemiad.pid
+
+ExecStart=/usr/bin/pandemiad -daemon -pid=/var/lib/pandemiad/pandemiad.pid \
+          -conf=/etc/pandemia/pandemia.conf -datadir=/var/lib/pandemiad
+
+ExecStop=-/usr/bin/pandemia-cli -conf=/etc/pandemia/pandemia.conf \
+         -datadir=/var/lib/pandemiad stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

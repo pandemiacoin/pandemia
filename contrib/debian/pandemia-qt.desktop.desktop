@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Pandemia
+Comment=Pandemia P2P Cryptocurrency
+Exec=pandemia-qt %u
+Terminal=false
+Type=Application
+Icon=pandemia128
+MimeType=x-scheme-handler/pandemia;
+Categories=Office;Finance;
+Name[en_US]=pandemia-qt.desktop
