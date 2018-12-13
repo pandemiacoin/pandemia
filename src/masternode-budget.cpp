@@ -849,42 +849,35 @@ CAmount CBudgetManager::GetTotalBudget(int nHeight)
     //get block value and calculate from that
     CAmount nSubsidy = 0;
 
-    if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= GetSporkValue(SPORK_19_REWARDS_2_SWITCH)) {
-        nSubsidy = 2.1 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_17_REWARDS_SWITCH)) {
+    if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= GetSporkValue(SPORK_17_REWARDS_SWITCH)) {
         nSubsidy = 1.05 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_20_REWARDS_3_SWITCH)) {
-        nSubsidy = 3.15 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_21_REWARDS_4_SWITCH)) {
-        nSubsidy = 4.2 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_22_REWARDS_5_COLLATERAL_2500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_19_COLLATERAL_7000)) {
         nSubsidy = 5.25 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_23_REWARDS_10_COLLATERAL_3000_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_20_COLLATERAL_8000)) {
+        nSubsidy = 7.35 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_21_COLLATERAL_9000)) {
         nSubsidy = 10.5 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_24_REWARDS_18_COLLATERAL_3500_SWITCH)) {
-        nSubsidy = 18.9 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_25_REWARDS_28_COLLATERAL_4000_SWITCH)) {
-        nSubsidy = 29.4 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_26_REWARDS_40_COLLATERAL_4500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_22_COLLATERAL_10000)) {
+        nSubsidy = 14.7 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_23_COLLATERAL_11000)) {
+        nSubsidy = 19.95 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_24_COLLATERAL_12000)) {
+        nSubsidy = 26.25 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_25_COLLATERAL_13000)) {
+        nSubsidy = 33.6 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_26_COLLATERAL_14000)) {
         nSubsidy = 42 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_27_REWARDS_54_COLLATERAL_5000_SWITCH)) {
-        nSubsidy = 56.7 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_28_REWARDS_70_COLLATERAL_5500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_27_COLLATERAL_15000)) {
+        nSubsidy = 51.45 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_28_COLLATERAL_16000)) {
+        nSubsidy = 61.95 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_29_COLLATERAL_17000)) {
         nSubsidy = 73.5 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_29_REWARDS_88_COLLATERAL_6000_SWITCH)) {
-        nSubsidy = 92.4 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_30_REWARDS_108_COLLATERAL_6500_SWITCH)) {
-        nSubsidy = 113.4 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_31_REWARDS_130_COLLATERAL_7000_SWITCH)) {
-        nSubsidy = 136.5 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_32_REWARDS_154_COLLATERAL_7500_SWITCH)) {
-        nSubsidy = 161.7 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_33_REWARDS_180_COLLATERAL_8000_SWITCH)) {
-        nSubsidy = 189 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_30_COLLATERAL_18000)) {
+        nSubsidy = 86.1 * COIN;
     } else {
         nSubsidy = 0 * COIN;
     }
-
     // Amount of blocks in a months period of time (using 1 minutes per) = (60*24*30)
     return ((nSubsidy / 100) * 10) * 1440 * 30;
 }

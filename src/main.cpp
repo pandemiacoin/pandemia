@@ -1625,40 +1625,36 @@ int64_t GetBlockValue(int nHeight)
 
     if (nHeight == 0) {
         nSubsidy = 0 * COIN;
-    } else if (nHeight <= Params().LAST_POW_BLOCK()) {
-        nSubsidy = 3750 * COIN;
+    } else if (nHeight < Params().LAST_POW_BLOCK()) {
+        nSubsidy = 50505 * COIN; // Premine for swap
     } else if (nHeight <= GetSporkValue(SPORK_17_REWARDS_SWITCH)) {
         nSubsidy = 1 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_19_REWARDS_2_SWITCH)) {
-        nSubsidy = 2 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_20_REWARDS_3_SWITCH)) {
-        nSubsidy = 3 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_21_REWARDS_4_SWITCH)) {
-        nSubsidy = 4 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_22_REWARDS_5_COLLATERAL_2500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_19_COLLATERAL_7000)) {
         nSubsidy = 5 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_23_REWARDS_10_COLLATERAL_3000_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_20_COLLATERAL_8000)) {
+        nSubsidy = 7 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_21_COLLATERAL_9000)) {
         nSubsidy = 10 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_24_REWARDS_18_COLLATERAL_3500_SWITCH)) {
-        nSubsidy = 18 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_25_REWARDS_28_COLLATERAL_4000_SWITCH)) {
-        nSubsidy = 28 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_26_REWARDS_40_COLLATERAL_4500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_22_COLLATERAL_10000)) {
+        nSubsidy = 14 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_23_COLLATERAL_11000)) {
+        nSubsidy = 19 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_24_COLLATERAL_12000)) {
+        nSubsidy = 25 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_25_COLLATERAL_13000)) {
+        nSubsidy = 32 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_26_COLLATERAL_14000)) {
         nSubsidy = 40 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_27_REWARDS_54_COLLATERAL_5000_SWITCH)) {
-        nSubsidy = 54 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_28_REWARDS_70_COLLATERAL_5500_SWITCH)) {
+    } else if (nHeight <= GetSporkValue(SPORK_27_COLLATERAL_15000)) {
+        nSubsidy = 49 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_28_COLLATERAL_16000)) {
+        nSubsidy = 59 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_29_COLLATERAL_17000)) {
         nSubsidy = 70 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_29_REWARDS_88_COLLATERAL_6000_SWITCH)) {
-        nSubsidy = 88 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_30_REWARDS_108_COLLATERAL_6500_SWITCH)) {
-        nSubsidy = 108 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_31_REWARDS_130_COLLATERAL_7000_SWITCH)) {
-        nSubsidy = 130 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_32_REWARDS_154_COLLATERAL_7500_SWITCH)) {
-        nSubsidy = 154 * COIN;
-    } else if (nHeight <= GetSporkValue(SPORK_33_REWARDS_180_COLLATERAL_8000_SWITCH)) {
-        nSubsidy = 180 * COIN;
+    } else if (nHeight <= GetSporkValue(SPORK_30_COLLATERAL_18000)) {
+        nSubsidy = 82 * COIN;
+    } else {
+        nSubsidy = 0 * COIN;
     }
 
     // Check if we reached the coin max supply.
@@ -1682,7 +1678,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
         return 0;
 
     // Check if we reached coin supply
-    ret = blockValue * 0.70; // 70% of block reward
+    ret = blockValue * 0.90; // 90% of block reward
 
     return ret;
 }
@@ -1892,20 +1888,20 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         }
 
         if (!tx.IsCoinStake()) {
-            // if (nValueIn < tx.GetValueOut())
-            //     return state.DoS(100, error("CheckInputs() : %s value in (%s) < value out (%s)",
-            //                               tx.GetHash().ToString(), FormatMoney(nValueIn), FormatMoney(tx.GetValueOut())),
-            //         REJECT_INVALID, "bad-txns-in-belowout");
+            if (nValueIn < tx.GetValueOut())
+                return state.DoS(100, error("CheckInputs() : %s value in (%s) < value out (%s)",
+                                          tx.GetHash().ToString(), FormatMoney(nValueIn), FormatMoney(tx.GetValueOut())),
+                    REJECT_INVALID, "bad-txns-in-belowout");
 
             // Tally transaction fees
             CAmount nTxFee = nValueIn - tx.GetValueOut();
-            // if (nTxFee < 0)
-            //     return state.DoS(100, error("CheckInputs() : %s nTxFee < 0", tx.GetHash().ToString()),
-            //         REJECT_INVALID, "bad-txns-fee-negative");
+            if (nTxFee < 0)
+                return state.DoS(100, error("CheckInputs() : %s nTxFee < 0", tx.GetHash().ToString()),
+                    REJECT_INVALID, "bad-txns-fee-negative");
             nFees += nTxFee;
-            // if (!MoneyRange(nFees))
-            //     return state.DoS(100, error("CheckInputs() : nFees out of range"),
-            //         REJECT_INVALID, "bad-txns-fee-outofrange");
+            if (!MoneyRange(nFees))
+                return state.DoS(100, error("CheckInputs() : nFees out of range"),
+                    REJECT_INVALID, "bad-txns-fee-outofrange");
         }
         // The first loop above does all the inexpensive checks.
         // Only if ALL inputs pass do we perform expensive ECDSA signature checks.

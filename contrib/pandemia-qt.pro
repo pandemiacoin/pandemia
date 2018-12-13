@@ -91,6 +91,7 @@ HEADERS += src/bignum.h \
            src/limitedmap.h \
            src/main.h \
            src/masternode-budget.h \
+           src/masternode-devbudget.h \
            src/masternode-payments.h \
            src/masternode-sync.h \
            src/masternode.h \

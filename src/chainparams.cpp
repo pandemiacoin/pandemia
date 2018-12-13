@@ -54,21 +54,21 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (0, uint256("0x00000b1d97421df2ceef97b66499ad171c2455131bc6f8edd98e5297008a66c8"))
-    (400, uint256("0x0000008eff714ecabde12aff882bd0b72f2bc6a065e53139068346b25cc3dae7"))
-    (1000, uint256("0x0110a8900445c12015c4ca936bffcbd06ecf896dc8db9b7faf7cedb3e8bcfb63"));
+    (0, uint256("0x00000153eef6b6a8f7bb66d319ccdbf85cc9e72269a2e57a8499c74f193f3796"))
+    (666, uint256("0x87546b9a1044d9bfb1b6cd24df0ddf977e3e37da665fb5932513050a9e817ec6"))
+    (2666, uint256("0x9ea92b07e54707ec6660a1be30760b337979c86a6be536f822cdcaa656172805"));
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1536039747, // * UNIX timestamp of last checkpoint block
-    1607,          // * total number of transactions between genesis and last checkpoint
+    1544604876, // * UNIX timestamp of last checkpoint block
+    5138,          // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256("0x0000010ec54414321c3a125b9764e2b5c7bdbafe783eb93337c5c2076682202c"));
+    (0, uint256("0x00000ec93822790dfac065f8e45d3e52f5cc3775fc55f5147d3e8054fd1f5c39"));
 
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
@@ -78,7 +78,7 @@ static const Checkpoints::CCheckpointData dataTestnet = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsRegtest =
     boost::assign::map_list_of
-    (0, uint256("0x594b0c3a5b8add44009ec619d89a0ccef5f992356187c4cb5fce9c20e3ade38c"));
+    (0, uint256("0x7c739aa905b497c458350b98f80d52b2d92a3935aaafcceafc8829f79cd5658b"));
 
 static const Checkpoints::CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
@@ -98,12 +98,12 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 4-byte int at any alignment.
          */
-        pchMessageStart[0] = 0x12;
-        pchMessageStart[1] = 0x54;
-        pchMessageStart[2] = 0xa8;
-        pchMessageStart[3] = 0x33;
-        vAlertPubKey = ParseHex("047a77e93b981cb8dcd8245a219dfeaa2f754172d88e8d602701f615436c977e6f56fa0e70eebad3229f7a5a71c2b19fd14dbe6914d5a7aacddd13b80ccf7d11c6");
-        nDefaultPort = 47666;
+        pchMessageStart[0] = 0xa8;
+        pchMessageStart[1] = 0x33;
+        pchMessageStart[2] = 0xfa;
+        pchMessageStart[3] = 0xf9;
+        vAlertPubKey = ParseHex("0412855257fd3199e662bdb1becdc3b78d7d4913f6f4a85ca3972c5881c12a1a25ce3f427f13970953cb2ebf40bd3908d32bc4db6665f8a4f6691c14d9bebf2b77");
+        nDefaultPort = 48766;
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         nSubsidyHalvingInterval = 1050000;
         nMaxReorganizationDepth = 100;
@@ -118,33 +118,39 @@ public:
         nMaxMoneyOut = 100000000 * COIN;
 
         /** Height or Time Based Activations **/
-        nLastPOWBlock = 400;
+        nLastPOWBlock = 200;
         nModifierUpdateBlock = 1; // we use the version 2 for PNDM
 
-        const char* pszTimestamp = "Friday, 31-Aug-18 00:00:00 UTC";
+        const char* pszTimestamp = "Pandemia swap 1543104000";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 0 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("0408a94dfaa515db109252c7a95fd30cb92093d8af0776b53f7358efc19afabf287e670d8fd0e00037aabcf2520b782e2c8e3818023c0a72c774a3db8412f4bc05") << OP_CHECKSIG;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04e35b2f11b3be87cbf07202aec99d46b935b2a150b6ffffbb12ec0c151062d3aa86c9333824a874e801ae83fa35981c53d8b5ab322d87409e4a73d25da965ca5f") << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1535673600;
+        genesis.nTime = 1543104000;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 844747;
+        genesis.nNonce = 2062672;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000b1d97421df2ceef97b66499ad171c2455131bc6f8edd98e5297008a66c8"));
-        assert(genesis.hashMerkleRoot == uint256("0x4c5cf0687e116359e043145d6ecc89d57ea2ca20b33e6df77b1438d0681d39a3"));
+        assert(hashGenesisBlock == uint256("0x00000153eef6b6a8f7bb66d319ccdbf85cc9e72269a2e57a8499c74f193f3796"));
+        assert(genesis.hashMerkleRoot == uint256("0x0efacc2fd0a69ee93ae2c898a858e91ca32576189d0afc28fcd5441d5f6bff88"));
 
         // DNS Seeding
-        vSeeds.push_back(CDNSSeedData("dnsseed.pandemia.io", "dnsseed.pandemia.io"));
+        vSeeds.push_back(CDNSSeedData("pandemia.io", "dnsseed1.pandemia.io"));
+        vSeeds.push_back(CDNSSeedData("pandemia.io", "dnsseed2.pandemia.io"));
+        vSeeds.push_back(CDNSSeedData("5.101.49.132", "5.101.49.132"));
+        vSeeds.push_back(CDNSSeedData("37.228.118.18", "37.228.118.18"));
+        vSeeds.push_back(CDNSSeedData("95.213.200.15", "95.213.200.15"));
+        vSeeds.push_back(CDNSSeedData("92.53.77.110", "92.53.77.110"));
+        vSeeds.push_back(CDNSSeedData("95.213.195.108", "95.213.195.108"));
 
-        // Pandemia addresses start with 'P'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 55);
+        // Pandemia addresses start with 'p'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 117);
         // Pandemia script addresses start with '3'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 6);
         // Pandemia private keys start with 'K'
@@ -153,7 +159,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
         // Pandemia BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
-        // Pandemia BIP44 coin type is '47662' (0x8000ba2e)
+        // Pandemia BIP44 coin type is '48762' (0x8000ba2e)
         // BIP44 coin type is from https://github.com/satoshilabs/slips/blob/master/slip-0044.md
         base58Prefixes[EXT_COIN_TYPE] = boost::assign::list_of(0x80)(0x00)(0xba)(0x2e).convert_to_container<std::vector<unsigned char> >();
 
@@ -169,8 +175,8 @@ public:
         fHeadersFirstSyncingActive = false;
 
         nPoolMaxTransactions = 3;
-        strSporkKey = "0464a799b44dcb92ff0fcade74cb0ff7341a629fd5678ce7c255cb92182f96686bc3c2f5dccc86f28b4cf602f9f19675c464de002d86403081481b44c34f517343";
-        strMasternodePoolDummyAddress = "PSJVWUkt6HtSCY2SaJ2akeyJUg8bg1hW3S";
+        strSporkKey = "04ef26df7af7420c42673eeaee7976b85c98427e7255402a2a03f0bd57a55c62fa41e46d8c1a39e389f63f5ec2df5d69dbd9f5a4d756fc0e3e84d40eb0b2c734f8";
+        strMasternodePoolDummyAddress = "pSJVWUkt6HtSCY2SaJ2akeyJUg8bg1hW3S";
         nStartMasternodePayments = genesis.nTime + 86400; // 24 hours after genesis creation
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
@@ -193,12 +199,12 @@ public:
     {
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
-        pchMessageStart[0] = 0xbc;
-        pchMessageStart[1] = 0x8a;
-        pchMessageStart[2] = 0xae;
-        pchMessageStart[3] = 0x54;
-        vAlertPubKey = ParseHex("0457f2420f1ae36f50c00b59be60df82eee5f0359e9ce34acc0bdf7d934ed6eb22795e0bfa93f2889b24f4813eb8f35eedc5d0282578329532aa12a91d00077d87");
-        nDefaultPort = 47663;
+        pchMessageStart[0] = 0xae;
+        pchMessageStart[1] = 0x0b;
+        pchMessageStart[2] = 0xfe;
+        pchMessageStart[3] = 0x07;
+        vAlertPubKey = ParseHex("04d7ed6e85154354a7f5462106ea6ca70de43d033d33d8929da20d4f6db075c9fa064e59a7ba1c3bf2ca9f3817573b791c09502e3aa9d4adeadf7b3b955da6ca83");
+        nDefaultPort = 48763;
         nEnforceBlockUpgradeMajority = 51;
         nRejectBlockOutdatedMajority = 75;
         nToCheckBlockUpgradeMajority = 100;
@@ -212,17 +218,17 @@ public:
         nMaxMoneyOut = 100000000 * COIN;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1535673610;
-        genesis.nNonce = 550133;
+        genesis.nTime = 1543104010;
+        genesis.nNonce = 792872;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x0000010ec54414321c3a125b9764e2b5c7bdbafe783eb93337c5c2076682202c"));
+        assert(hashGenesisBlock == uint256("0x00000ec93822790dfac065f8e45d3e52f5cc3775fc55f5147d3e8054fd1f5c39"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        // Testnet Pandemia addresses start with 'p'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 117);
+        // Testnet Pandemia addresses start with 'q'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 120);
         // Testnet Pandemia script addresses start with '5' or '6'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 12);
         // Testnet private keys start with 'k'
@@ -244,8 +250,8 @@ public:
         fTestnetToBeDeprecatedFieldRPC = true;
 
         nPoolMaxTransactions = 2;
-        strSporkKey = "0499006d850d5463559651dbeea68e9b464c50cc95607c952088b339998ed1fbaf8354e04a8e6559a413e7f60f9d9ddaf6319821c7860ef823bd16037a44faaa9d";
-        strMasternodePoolDummyAddress = "pbJ4Qad4xc77PpLzMx6rUegAs6aUPWkcUq";
+        strSporkKey = "04cd010c4965002fa9e0f12ac489da737be8e1a0b81ea0aa24df582395b961c6edeade1b93f84c379dcc58b59c86c15317dc7e06885e4b8084194b98a2ae39e4e3";
+        strMasternodePoolDummyAddress = "qbJ4Qad4xc77PpLzMx6rUegAs6aUPWkcUq";
         nStartMasternodePayments = genesis.nTime + 86400; // 24 hours after genesis
         nBudget_Fee_Confirmations = 3; // Number of confirmations for the finalization fee. We have to make this very short
                                        // here because we only have a 8 block finalization window on testnet
@@ -268,10 +274,10 @@ public:
         networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
         strNetworkID = "regtest";
-        pchMessageStart[0] = 0x12;
-        pchMessageStart[1] = 0x33;
-        pchMessageStart[2] = 0xbc;
-        pchMessageStart[3] = 0xa8;
+        pchMessageStart[0] = 0xbe;
+        pchMessageStart[1] = 0xbc;
+        pchMessageStart[2] = 0xb4;
+        pchMessageStart[3] = 0xd9;
         nSubsidyHalvingInterval = 150;
         nEnforceBlockUpgradeMajority = 750;
         nRejectBlockOutdatedMajority = 950;
@@ -280,13 +286,13 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Pandemia: 1 day
         nTargetSpacing = 2 * 60;        // Pandemia: 1 minutes
         bnProofOfWorkLimit = ~uint256(0) >> 1;
-        genesis.nTime = 1535673620;
+        genesis.nTime = 1543104020;
         genesis.nBits = 0x207fffff;
         genesis.nNonce = 1;
 
         hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 47664;
-        assert(hashGenesisBlock == uint256("0x594b0c3a5b8add44009ec619d89a0ccef5f992356187c4cb5fce9c20e3ade38c"));
+        nDefaultPort = 48764;
+        assert(hashGenesisBlock == uint256("0x7c739aa905b497c458350b98f80d52b2d92a3935aaafcceafc8829f79cd5658b"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Regtest mode doesn't have any DNS seeds.
@@ -315,7 +321,7 @@ public:
     {
         networkID = CBaseChainParams::UNITTEST;
         strNetworkID = "unittest";
-        nDefaultPort = 47661;
+        nDefaultPort = 48761;
         vFixedSeeds.clear(); //! Unit test mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Unit test mode doesn't have any DNS seeds.
 
