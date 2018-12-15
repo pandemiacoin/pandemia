@@ -178,6 +178,7 @@ bool CMasternodeSigner::IsCollateralAmount(const CAmount& amount)
             amount == 9000  * COIN ||
             amount == 10000  * COIN ||
             amount == 11000  * COIN ||
+            amount == 12000  * COIN ||
             amount == 13000  * COIN ||
             amount == 14000  * COIN ||
             amount == 15000  * COIN ||
